@@ -703,7 +703,16 @@
                                     <option value="Custom Room Choice">Custom / Other Requirements...</option>
                                 </select>
                             </div>
-                            <div class="control-group" id="customRoomWrapper" style="display: none;">
+                            <div class="control-group">
+                                <label>Total Rooms Required</label>
+                                <select id="roomCount" required>
+                                    <option value="1 Room" selected>1 Room</option>
+                                    <option value="2 Rooms">2 Rooms</option>
+                                    <option value="3 Rooms">3 Rooms</option>
+                                    <option value="4+ Rooms / Group Block">4+ Rooms / Group Block</option>
+                                </select>
+                            </div>
+                            <div class="control-group span-full-row" id="customRoomWrapper" style="display: none;">
                                 <label>Describe Your Room Requirement</label>
                                 <input type="text" id="customRoomText" placeholder="e.g., Sea view option, Interconnected rooms">
                             </div>
@@ -730,9 +739,11 @@
                                 <textarea id="specialNotes" placeholder="Any extra details, customized group counts, or general custom requests..."></textarea>
                             </div>
                         </div>
-                        <button type="submit" class="whatsapp-submit-btn">
-                            <i class="fab fa-whatsapp"></i> Request Reservation via WhatsApp
-                        </button>
+                        <div class="span-full-row">
+                            <button type="submit" class="whatsapp-submit-btn">
+                                <i class="fab fa-whatsapp"></i> Request Reservation via WhatsApp
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -885,6 +896,7 @@
             const inDate = document.getElementById('checkIn').value;
             const outDate = document.getElementById('checkOut').value;
             let room = document.getElementById('roomSelected').value;
+            const roomsCount = document.getElementById('roomCount').value;
             const adults = document.getElementById('guestCount').value;
             const children = document.getElementById('childCount').value;
             const notes = document.getElementById('specialNotes').value.trim();
@@ -901,7 +913,7 @@
             }
 
             // Normal Premium Concierge Text Formatting
-            let dynamicMessage = `Om Palace Mandvi - Booking Request%0A%0A• Guest Name: ${encodeURIComponent(name)}%0A• Room Type: ${encodeURIComponent(room)}%0A• Check-In Date: ${encodeURIComponent(inDate)}%0A• Check-Out Date: ${encodeURIComponent(outDate)}%0A• Adults Count: ${encodeURIComponent(adults)}%0A• Children Count: ${encodeURIComponent(children)}`;
+            let dynamicMessage = `Om Palace Mandvi - Booking Request%0A%0A• Guest Name: ${encodeURIComponent(name)}%0A• Room Type: ${encodeURIComponent(room)}%0A• Rooms Required: ${encodeURIComponent(roomsCount)}%0A• Check-In Date: ${encodeURIComponent(inDate)}%0A• Check-Out Date: ${encodeURIComponent(outDate)}%0A• Adults Count: ${encodeURIComponent(adults)}%0A• Children Count: ${encodeURIComponent(children)}`;
             
             if(notes) {
                 dynamicMessage += `%0A• Requirements Note: ${encodeURIComponent(notes)}`;
@@ -913,3 +925,4 @@
     </script>
 </body>
 </html>
+
