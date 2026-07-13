@@ -174,30 +174,41 @@
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
-        /* --- FLOATING TELEPHONE PRESTIGE SHORTCUT --- */
+        /* --- DUAL FLOATING ACTIONS COMPONENT --- */
         .floating-actions {
             position: fixed;
             bottom: 30px;
             right: 30px;
             z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .float-btn {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--luxury-dark);
-            font-size: 22px;
-            background: var(--luxury-gold);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            font-size: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
         }
 
+        .float-btn.call-action {
+            background: var(--luxury-gold);
+        }
+
+        .float-btn.whatsapp-action {
+            background: var(--success);
+            color: var(--text-light);
+        }
+
         .float-btn:hover {
-            transform: scale(1.08);
+            transform: translateY(-5px) scale(1.05);
         }
 
         /* --- APP STRUCTURE CONFIGURATION --- */
@@ -399,7 +410,7 @@
             letter-spacing: 2px;
         }
 
-        .control-group input, .control-group select {
+        .control-group input, .control-group select, .control-group textarea {
             width: 100%;
             padding: 16px;
             border: none;
@@ -411,13 +422,19 @@
             transition: var(--transition);
         }
 
-        .control-group input:focus, .control-group select:focus {
+        .control-group input:focus, .control-group select:focus, .control-group textarea:focus {
             border-bottom-color: var(--luxury-gold);
         }
 
         .control-group select option {
             background: var(--luxury-slate);
             color: var(--text-light);
+        }
+
+        .control-group textarea {
+            resize: none;
+            height: 80px;
+            font-family: inherit;
         }
 
         .whatsapp-submit-btn {
@@ -573,10 +590,13 @@
         </div>
     </header>
 
-    <!-- --- TELEPHONE SHORTCUT --- -->
+    <!-- --- DUAL FLOATING PRESTIGE ACTIONS (PHONE + WHATSAPP) --- -->
     <div class="floating-actions">
-        <a href="tel:+919723172545" class="float-btn" title="Call Reservations Desk">
+        <a href="tel:+919825325189" class="float-btn call-action" title="Call Reservations Desk">
             <i class="fas fa-phone-alt"></i>
+        </a>
+        <a href="https://wa.me/919825325189" target="_blank" class="float-btn whatsapp-action" title="Chat via WhatsApp">
+            <i class="fab fa-whatsapp"></i>
         </a>
     </div>
 
@@ -611,7 +631,7 @@
                             <span><i class="fas fa-wifi"></i> Ultra-Fast Wi-Fi</span>
                             <span><i class="fas fa-tv"></i> Smart TV Array</span>
                         </div>
-                        <button class="prestige-btn" onclick="captureSelection('Special AC Room')">Book Suite</button>
+                        <button class="prestige-btn" onclick="captureSelection('Special Executive AC Room')">Book Suite</button>
                     </div>
                 </div>
 
@@ -629,7 +649,7 @@
                             <span><i class="fas fa-snowflake"></i> Master AC Zone</span>
                             <span><i class="fas fa-couch"></i> Lounge Sofa</span>
                         </div>
-                        <button class="prestige-btn" onclick="captureSelection('Premium Family Suite')">Book Suite</button>
+                        <button class="prestige-btn" onclick="captureSelection('Grand Premium Family Suite')">Book Suite</button>
                     </div>
                 </div>
 
@@ -647,7 +667,7 @@
                             <span><i class="fas fa-wifi"></i> High Bandwidth Wi-Fi</span>
                             <span><i class="fas fa-bed"></i> Organic Cotton Linens</span>
                         </div>
-                        <button class="prestige-btn" onclick="captureSelection('Standard Non-AC Room')">Book Suite</button>
+                        <button class="prestige-btn" onclick="captureSelection('Standard Minimalist Room')">Book Suite</button>
                     </div>
                 </div>
 
@@ -663,7 +683,7 @@
                         <div class="form-layout-grid">
                             <div class="control-group span-full-row">
                                 <label>Guest Full Name</label>
-                                <input type="text" id="guestName" required placeholder="Enter full name parameter">
+                                <input type="text" id="guestName" required placeholder="Enter full name">
                             </div>
                             <div class="control-group">
                                 <label>Check-In Arrival</label>
@@ -674,22 +694,40 @@
                                 <input type="date" id="checkOut" required>
                             </div>
                             <div class="control-group">
-                                <label>Accommodation Array</label>
-                                <select id="roomSelected" required>
-                                    <option value="" disabled selected>Select suite category...</option>
-                                    <option value="Special AC Room">Special Executive AC Room</option>
-                                    <option value="Premium Family Suite">Grand Premium Family Suite</option>
-                                    <option value="Standard Non-AC Room">Standard Minimalist Room</option>
+                                <label>Room Types</label>
+                                <select id="roomSelected" onchange="toggleCustomRoomField()" required>
+                                    <option value="" disabled selected>Select room type...</option>
+                                    <option value="Special Executive AC Room">Special Executive AC Room</option>
+                                    <option value="Grand Premium Family Suite">Grand Premium Family Suite</option>
+                                    <option value="Standard Minimalist Room">Standard Minimalist Room</option>
+                                    <option value="Custom Room Choice">Custom / Other Requirements...</option>
+                                </select>
+                            </div>
+                            <div class="control-group" id="customRoomWrapper" style="display: none;">
+                                <label>Describe Your Room Requirement</label>
+                                <input type="text" id="customRoomText" placeholder="e.g., Sea view option, Interconnected rooms">
+                            </div>
+                            <div class="control-group">
+                                <label>Total Adults</label>
+                                <select id="guestCount" required>
+                                    <option value="1 Adult">1 Adult</option>
+                                    <option value="2 Adults" selected>2 Adults</option>
+                                    <option value="3 Adults">3 Adults</option>
+                                    <option value="4+ Adults Group">4+ Adults Group</option>
                                 </select>
                             </div>
                             <div class="control-group">
-                                <label>Occupancy Parameter</label>
-                                <select id="guestCount" required>
-                                    <option value="1 Guest">1 Elite Guest</option>
-                                    <option value="2 Guests" selected>2 Guests</option>
-                                    <option value="3 Guests">3 Guests</option>
-                                    <option value="4+ Guests / Family Group">Family Group Allocation</option>
+                                <label>Children Allocation</label>
+                                <select id="childCount" required>
+                                    <option value="No Children" selected>No Children</option>
+                                    <option value="1 Child">1 Child</option>
+                                    <option value="2 Children">2 Children</option>
+                                    <option value="3+ Children">3+ Children</option>
                                 </select>
+                            </div>
+                            <div class="control-group span-full-row">
+                                <label>Special Travel Requests (Optional)</label>
+                                <textarea id="specialNotes" placeholder="Any extra details, customized group counts, or general custom requests..."></textarea>
                             </div>
                         </div>
                         <button type="submit" class="whatsapp-submit-btn">
@@ -753,7 +791,7 @@
                         <i class="fas fa-phone-alt"></i>
                         <div class="metric-details">
                             <h5>Voice Communications</h5>
-                            <p>+91 97231 72545 / +91 99786 27045</p>
+                            <p>+91 98253 25189 / +91 99786 27045</p>
                         </div>
                     </div>
 
@@ -799,6 +837,17 @@
             document.getElementById('checkOut').min = today;
         });
 
+        // Toggle custom description input box if custom room choice is active
+        function toggleCustomRoomField() {
+            const selectValue = document.getElementById('roomSelected').value;
+            const targetWrapper = document.getElementById('customRoomWrapper');
+            if(selectValue === "Custom Room Choice") {
+                targetWrapper.style.display = "flex";
+            } else {
+                targetWrapper.style.display = "none";
+            }
+        }
+
         // Application View Switching Engine
         function navigateApp(targetId) {
             const panels = document.querySelectorAll('.page-view');
@@ -824,6 +873,7 @@
 
         function captureSelection(roomName) {
             document.getElementById('roomSelected').value = roomName;
+            toggleCustomRoomField();
             document.getElementById('booking-console-anchor').scrollIntoView({behavior: 'smooth'});
         }
 
@@ -834,18 +884,30 @@
             const name = document.getElementById('guestName').value.trim();
             const inDate = document.getElementById('checkIn').value;
             const outDate = document.getElementById('checkOut').value;
-            const room = document.getElementById('roomSelected').value;
-            const guests = document.getElementById('guestCount').value;
+            let room = document.getElementById('roomSelected').value;
+            const adults = document.getElementById('guestCount').value;
+            const children = document.getElementById('childCount').value;
+            const notes = document.getElementById('specialNotes').value.trim();
 
             if (new Date(inDate) >= new Date(outDate)) {
                 alert("Departure parameters must sit on a chronological timestamp after the arrival target.");
                 return;
             }
 
+            // Append custom room inputs if active
+            if(room === "Custom Room Choice") {
+                const customDesc = document.getElementById('customRoomText').value.trim();
+                room = customDesc ? `Custom Choice (${customDesc})` : "Custom Requirement Selection";
+            }
+
             // Normal Premium Concierge Text Formatting
-            const dynamicMessage = `Om Palace Mandvi - Booking Request%0A%0A• Guest Name: ${encodeURIComponent(name)}%0A• Room Type: ${encodeURIComponent(room)}%0A• Check-In Date: ${encodeURIComponent(inDate)}%0A• Check-Out Date: ${encodeURIComponent(outDate)}%0A• Total Guests: ${encodeURIComponent(guests)}`;
+            let dynamicMessage = `Om Palace Mandvi - Booking Request%0A%0A• Guest Name: ${encodeURIComponent(name)}%0A• Room Type: ${encodeURIComponent(room)}%0A• Check-In Date: ${encodeURIComponent(inDate)}%0A• Check-Out Date: ${encodeURIComponent(outDate)}%0A• Adults Count: ${encodeURIComponent(adults)}%0A• Children Count: ${encodeURIComponent(children)}`;
             
-            const targetOperationsNumber = "919723172545"; 
+            if(notes) {
+                dynamicMessage += `%0A• Requirements Note: ${encodeURIComponent(notes)}`;
+            }
+            
+            const targetOperationsNumber = "919825325189"; 
             window.open(`https://wa.me/${targetOperationsNumber}?text=${dynamicMessage}`, '_blank');
         });
     </script>
